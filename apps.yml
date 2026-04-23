@@ -9,7 +9,7 @@ apps:
       iPhone 16 Pro Maxでも劣化が分からない品質を保ちつつ、各種画像ファイルを2MB以下のJPGになるように一括圧縮するアプリケーションです。
       EXIFが取得できる場合、撮影日時・GPS座標を抽出し、自動生成する各種確認用HTML（変換結果、画像プレビュー、スライドショー）に利用します。
     icon: assets/icons/picture-converter.png
-    screenshots: []
+    screenshots: ["picture-converter/1.png","picture-converter/2.png","picture-converter/3.png"]
     features:
       - 複数フォルダを一括変換
       - 変換オプション（品質・最大幅・並列数など）が設定可能

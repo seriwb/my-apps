@@ -206,7 +206,7 @@ function buildIndex(apps: ResolvedApp[]): void {
         TAGLINE: esc(def.tagline),
         ICON: esc(def.icon),
         PLATFORM_BADGES: platformBadges(def.platforms),
-        VERSION: version === "未リリース" ? version : `v${esc(version)}`,
+        VERSION: version === "未リリース" ? version : `${esc(version)}`,
       });
       return cardHtml;
     })
@@ -232,7 +232,7 @@ function buildAppPage(app: ResolvedApp): void {
       ? `<section class="app-section">
         <h2 class="section-title">スクリーンショット</h2>
         <div class="screenshots">
-          ${def.screenshots.map((s) => `<img src="../${esc(s)}" alt="${esc(def.name)} screenshot" />`).join("\n          ")}
+          ${def.screenshots.map((s) => `<img src="../assets/screenshots/${esc(s)}" alt="${esc(def.name)} screenshot" />`).join("\n          ")}
         </div>
       </section>`
       : "";
