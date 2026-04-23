@@ -22,43 +22,46 @@
       <div>
         <h1 class="app-hero-title">Picture Converter</h1>
         <p class="app-hero-tagline">高画質画像ファイルを2MB以下に一括変換するデスクトップアプリケーション</p>
-        <div class="app-platforms"><span class="badge badge-mac">macOS</span>
-          <span class="badge badge-win">Windows</span>
-          <span class="badge badge-linux">Linux</span></div>
+        <div class="app-platforms">
+          <span class="badge badge-mac">macOS</span>
+    <span class="badge badge-win">Windows</span>
+    <span class="badge badge-linux">Linux</span>
+        </div>
       </div>
     </section>
 
     <section class="app-section">
       <h2 class="section-title">ダウンロード</h2>
       <div class="download-grid">
-        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-0.1.0-arm64.dmg" download>
-            macOS <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
-          </a>
-          <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-Setup-0.1.0.exe" download>
-            Windows <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
-          </a>
-          <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-0.1.0.AppImage" download>
-            Linux <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
-          </a>
+        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-0.1.0-arm64.dmg" download>macOS (arm64) <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
+        </a>
+        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-Setup-0.1.0.exe" download>Windows <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
+        </a>
+        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/picture-converter-v0.1.0/Picture-Converter-0.1.0.AppImage" download>Linux <span style="font-size:12px;opacity:0.8;">v0.1.0</span>
+        </a>
       </div>
       <div class="note-box">現在コード署名なしのビルドです。初回起動時はGatekeeperのブロックが表示される場合があります。
-システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。</div>
+ブロックされた場合、システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。</div>
     </section>
 
     <section class="app-section">
       <h2 class="section-title">説明</h2>
-      <p class="app-description">iPhone 16 Pro Maxでも劣化が分からない品質を保ちつつ、各種画像ファイルを2MB以下のJPGになるように一括圧縮するアプリケーションです。
+      <p class="app-description">各種画像ファイル（.jpg .jpeg .png .heic .heif .webp）を、iPhone 16 Pro Maxでも劣化が分からない品質を保ちつつ、2MB以下のJPGになるように一括変換するアプリケーションです。
+画像ファイルが含まれたフォルダ単位で変換処理を行います。
 EXIFが取得できる場合、撮影日時・GPS座標を抽出し、自動生成する各種確認用HTML（変換結果、画像プレビュー、スライドショー）に利用します。</p>
     </section>
 
     <section class="app-section">
       <h2 class="section-title">主な機能</h2>
       <ul class="feature-list">
-        <li>複数フォルダを一括変換</li>
-          <li>変換オプション（品質・最大幅・並列数など）が設定可能</li>
-          <li>リアルタイム進捗バー &amp; 実行ログパネル</li>
-          <li>撮影日時 / GPS座標があれば、HTMLに表示</li>
-          <li>変換完了後、変換結果HTML（result.html）がワンクリック表示可能</li>
+        <li>フォルダに入った複数画像ファイルを適正な画像サイズに一括で変換</li>
+        <li>変換フォルダには各種確認用HTMLを生成</li>
+        <li>複数フォルダを一括変換可能</li>
+        <li>変換オプション（品質・最大幅・並列数など）が設定可能</li>
+        <li>変換せずに種確認用HTMLを作成することが可能</li>
+        <li>変換中の実行ログを表示</li>
+        <li>撮影日時、GPS座標があれば、HTMLに表示</li>
+        <li>変換完了後、変換結果HTML（result.html）がワンクリック表示可能</li>
       </ul>
     </section>
 

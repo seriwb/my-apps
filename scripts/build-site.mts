@@ -7,7 +7,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
 // ---- 型定義 ----
-
 interface AssetPatterns {
   mac?: string;
   win?: string;
@@ -59,17 +58,11 @@ interface ResolvedApp {
 }
 
 // ---- HTML エスケープ ----
-
 function esc(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 // ---- GitHub Releases API 問い合わせ ----
-
 async function fetchReleases(owner: string, repo: string): Promise<Release[]> {
   const token = process.env.GH_TOKEN;
   const headers: Record<string, string> = { Accept: "application/vnd.github+json" };
@@ -85,7 +78,6 @@ async function fetchReleases(owner: string, repo: string): Promise<Release[]> {
 }
 
 // ---- アプリごとに最新 release と asset URL を解決 ----
-
 function resolveApp(def: AppDef, releases: Release[]): ResolvedApp {
   const latest = releases
     .filter((r) => r.tag_name.startsWith(def.release_tag_prefix))
@@ -107,7 +99,6 @@ function resolveApp(def: AppDef, releases: Release[]): ResolvedApp {
 }
 
 // ---- テンプレートのシンプルな置換エンジン ----
-
 function render(template: string, vars: Record<string, string>): string {
   let result = template;
   for (const [key, value] of Object.entries(vars)) {
@@ -117,7 +108,6 @@ function render(template: string, vars: Record<string, string>): string {
 }
 
 // ---- プラットフォームバッジ生成 ----
-
 const PLATFORM_LABEL: Record<string, string> = {
   mac: "macOS",
   win: "Windows",
@@ -125,13 +115,10 @@ const PLATFORM_LABEL: Record<string, string> = {
 };
 
 function platformBadges(platforms: string[]): string {
-  return platforms
-    .map((p) => `<span class="badge badge-${p}">${esc(PLATFORM_LABEL[p] ?? p)}</span>`)
-    .join("\n          ");
+  return platforms.map((p) => `<span class="badge badge-${p}">${esc(PLATFORM_LABEL[p] ?? p)}</span>`).join("\n    ");
 }
 
 // ---- ダウンロードボタン生成 ----
-
 function downloadButtons(app: ResolvedApp): string {
   const { def, version, downloadUrls } = app;
 
@@ -140,16 +127,15 @@ function downloadButtons(app: ResolvedApp): string {
       const url = downloadUrls[p];
       const label = PLATFORM_LABEL[p] ?? p;
       if (url) {
-        return `<a class="btn-primary" href="${esc(url)}" download>\n            ${esc(label)} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n          </a>`;
+        return `<a class="btn-primary" href="${esc(url)}" download>${esc(label)}${p === "mac" ? " (arm64)" : ""} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n        </a>`;
       } else {
         return `<span class="btn-primary disabled">${esc(label)} — 未リリース</span>`;
       }
     })
-    .join("\n          ");
+    .join("\n        ");
 }
 
 // ---- OS 別注意書き生成 ----
-
 function notesSection(notes: AppNotes | undefined, downloadUrls: Record<string, string>): string {
   if (!notes) return "";
   const lines: string[] = [];
@@ -163,7 +149,6 @@ function notesSection(notes: AppNotes | undefined, downloadUrls: Record<string, 
 }
 
 // ---- 最終更新日のフォーマット ----
-
 function formatDate(iso: string | null): string {
   if (!iso) return "";
   const d = new Date(iso);
@@ -171,7 +156,6 @@ function formatDate(iso: string | null): string {
 }
 
 // ---- ファイル読み込みヘルパー ----
-
 function readTemplate(name: string): string {
   return fs.readFileSync(path.join(ROOT, "templates", name), "utf-8");
 }
@@ -181,7 +165,6 @@ function readPartial(name: string): string {
 }
 
 // ---- 出力ヘルパー ----
-
 function writeDoc(relPath: string, content: string): void {
   const dest = path.join(ROOT, "docs", relPath);
   fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -190,7 +173,6 @@ function writeDoc(relPath: string, content: string): void {
 }
 
 // ---- index.html 生成 ----
-
 function buildIndex(apps: ResolvedApp[]): void {
   const headTpl = readPartial("head.html");
   const cardTpl = readPartial("card.html");
@@ -219,13 +201,12 @@ function buildIndex(apps: ResolvedApp[]): void {
 }
 
 // ---- アプリ詳細ページ生成 ----
-
 function buildAppPage(app: ResolvedApp): void {
   const headTpl = readPartial("head.html");
   const appTpl = readTemplate("app.html");
   const { def } = app;
 
-  const features = def.features.map((f) => `<li>${esc(f)}</li>`).join("\n          ");
+  const features = def.features.map((f) => `<li>${esc(f)}</li>`).join("\n        ");
 
   const screenshotsSection =
     def.screenshots.length > 0
@@ -258,7 +239,6 @@ function buildAppPage(app: ResolvedApp): void {
 }
 
 // ---- エントリポイント ----
-
 async function main(): Promise<void> {
   const configPath = path.join(ROOT, "apps.yml");
   const config = yaml.load(fs.readFileSync(configPath, "utf-8")) as SiteConfig;
