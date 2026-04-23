@@ -1,0 +1,31 @@
+owner: seriwb
+repo: my-apps
+
+apps:
+  - id: picture-converter
+    name: Picture Converter
+    tagline: 高画質画像ファイルを2MB以下に一括変換するデスクトップアプリケーション
+    description: |
+      iPhone 16 Pro Maxでも劣化が分からない品質を保ちつつ、各種画像ファイルを2MB以下のJPGになるように一括圧縮するアプリケーションです。
+      EXIFが取得できる場合、撮影日時・GPS座標を抽出し、自動生成する各種確認用HTML（変換結果、画像プレビュー、スライドショー）に利用します。
+    icon: assets/icons/picture-converter.png
+    screenshots: []
+    features:
+      - 複数フォルダを一括変換
+      - 変換オプション（品質・最大幅・並列数など）が設定可能
+      - リアルタイム進捗バー & 実行ログパネル
+      - 撮影日時 / GPS座標があれば、HTMLに表示
+      - 変換完了後、変換結果HTML（result.html）がワンクリック表示可能
+    platforms:
+      - mac
+      - win
+      - linux
+    release_tag_prefix: picture-converter-v
+    asset_patterns:
+      mac: ".dmg"
+      win: "-Setup-"
+      linux: ".AppImage"
+    notes:
+      mac: |
+        現在コード署名なしのビルドです。初回起動時はGatekeeperのブロックが表示される場合があります。
+        システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。

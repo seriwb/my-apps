@@ -1,0 +1,16 @@
+{
+  "name": "my-apps-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx scripts/build-site.mts",
+    "preview": "python3 -m http.server 8080 --directory docs"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "4.0.9",
+    "@types/node": "22.10.0",
+    "js-yaml": "4.1.0",
+    "tsx": "4.21.0",
+    "typescript": "6.0.3"
+  }
+}
