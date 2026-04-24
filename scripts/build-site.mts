@@ -33,10 +33,14 @@ interface AppDef {
   notes?: AppNotes;
 }
 
+interface AppEntry {
+  id: string;
+}
+
 interface SiteConfig {
   owner: string;
   repo: string;
-  apps: AppDef[];
+  apps: AppEntry[];
 }
 
 interface ReleaseAsset {
@@ -213,7 +217,7 @@ function buildAppPage(app: ResolvedApp): void {
       ? `<section class="app-section">
         <h2 class="section-title">スクリーンショット</h2>
         <div class="screenshots">
-          ${def.screenshots.map((s) => `<img src="../assets/screenshots/${esc(s)}" alt="${esc(def.name)} screenshot" />`).join("\n          ")}
+          ${def.screenshots.map((s) => `<a href="../assets/screenshots/${esc(def.id)}/${esc(s)}" target="_blank" rel="noopener"><img src="../assets/screenshots/${esc(def.id)}/${esc(s)}" alt="${esc(def.name)} screenshot" /></a>`).join("\n          ")}
         </div>
       </section>`
       : "";
@@ -247,7 +251,11 @@ async function main(): Promise<void> {
   const releases = await fetchReleases(config.owner, config.repo);
   console.log(`   ${releases.length} 件の release を取得しました`);
 
-  const apps = config.apps.map((def) => resolveApp(def, releases));
+  const apps = config.apps.map((entry) => {
+    const detailPath = path.join(ROOT, "apps", `${entry.id}.yml`);
+    const def = yaml.load(fs.readFileSync(detailPath, "utf-8")) as AppDef;
+    return resolveApp(def, releases);
+  });
 
   // .nojekyll を保証
   fs.writeFileSync(path.join(ROOT, "docs", ".nojekyll"), "", "utf-8");

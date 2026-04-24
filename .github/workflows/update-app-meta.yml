@@ -1,0 +1,73 @@
+name: Update App Metadata
+
+on:
+  repository_dispatch:
+    types: [app-meta-updated]
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: app_id を検証し YAML を配置
+        env:
+          APP_ID: ${{ github.event.client_payload.app_id }}
+          META_B64: ${{ github.event.client_payload.meta_b64 }}
+        run: |
+          # パストラバーサル防止: 英小文字・数字・ハイフンのみ許可
+          if [[ ! "$APP_ID" =~ ^[a-z0-9][a-z0-9-]*$ ]]; then
+            echo "Invalid app_id: $APP_ID"
+            exit 1
+          fi
+          mkdir -p apps
+          echo "$META_B64" | base64 -d > "apps/${APP_ID}.yml"
+          # YAML パース可否のみチェック
+          python3 -c "import sys, yaml; yaml.safe_load(open(sys.argv[1]))" "apps/${APP_ID}.yml"
+
+      - name: スクリーンショットをアプリリポジトリから取得
+        if: ${{ github.event.client_payload.has_screenshots == 'true' }}
+        env:
+          APP_ID: ${{ github.event.client_payload.app_id }}
+          SRC_REPO: ${{ github.event.client_payload.src_repo }}
+          SRC_TAG: ${{ github.event.client_payload.src_tag }}
+          GH_TOKEN: ${{ secrets.HUB_RELEASE_TOKEN }}
+        run: |
+          DEST="docs/assets/screenshots/${APP_ID}"
+          mkdir -p "$DEST"
+          # アプリリポジトリの該当タグをスパースクローンして docs/screenshots/ だけ取得
+          git clone \
+            --depth 1 \
+            --branch "$SRC_TAG" \
+            --filter=blob:none \
+            --sparse \
+            "https://x-access-token:${GH_TOKEN}@github.com/${SRC_REPO}.git" \
+            _src_repo
+          cd _src_repo
+          git sparse-checkout set docs/screenshots
+          cd ..
+          if [ -d "_src_repo/docs/screenshots" ] && [ "$(ls -A _src_repo/docs/screenshots)" ]; then
+            cp _src_repo/docs/screenshots/* "$DEST/"
+            echo "スクリーンショットをコピーしました: $(ls $DEST)"
+          else
+            echo "docs/screenshots が空またはディレクトリなし。スキップ。"
+          fi
+          rm -rf _src_repo
+
+      - name: 更新されたファイルをコミット
+        env:
+          APP_ID: ${{ github.event.client_payload.app_id }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "apps/${APP_ID}.yml" "docs/assets/screenshots/${APP_ID}/"
+          if git diff --staged --quiet; then
+            echo "変更なし。スキップ。"
+          else
+            git commit -m "chore: update ${APP_ID} metadata and screenshots from release"
+            git push
+          fi
