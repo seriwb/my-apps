@@ -40,13 +40,11 @@ jobs:
           DEST="docs/assets/screenshots/${APP_ID}"
           mkdir -p "$DEST"
           # アプリリポジトリの該当タグをスパースクローンして docs/screenshots/ だけ取得
-          git clone \
+          gh repo clone "$SRC_REPO" _src_repo -- \
             --depth 1 \
             --branch "$SRC_TAG" \
             --filter=blob:none \
-            --sparse \
-            "https://x-access-token:${GH_TOKEN}@github.com/${SRC_REPO}.git" \
-            _src_repo
+            --sparse
           cd _src_repo
           git sparse-checkout set docs/screenshots
           cd ..
