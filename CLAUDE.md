@@ -16,7 +16,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Coding Rules
 - package追加の際は固定バージョンにすること(^1.0.1ではなく1.0.1とすること)
 - 文字コードはUTF-8
-- 日本語と英語の間に半角スペースを挟まない（OK: 新しいSample Pageを確認 / NG: 新しい Sample Page を確認）
+- 日本語と英語の間に半角スペースを挟まない（OK:新しいSample Pageを確認 / NG:新しい Sample Page を確認）
 
 ## コマンド
 
