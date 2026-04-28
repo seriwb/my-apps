@@ -1,3 +1,4 @@
+import "dotenv/config";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -5,6 +6,7 @@ import yaml from "js-yaml";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
+const GA_MEASUREMENT_ID = (process.env.GA_MEASUREMENT_ID ?? "").trim();
 
 // ---- 型定義 ----
 interface AssetPatterns {
@@ -131,7 +133,7 @@ function downloadButtons(app: ResolvedApp): string {
       const url = downloadUrls[p];
       const label = PLATFORM_LABEL[p] ?? p;
       if (url) {
-        return `<a class="btn-primary" href="${esc(url)}" download>${esc(label)}${p === "mac" ? " (arm64)" : ""} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n        </a>`;
+        return `<a class="btn-primary" href="${esc(url)}" download data-ga-event="download" data-ga-app-id="${esc(def.id)}" data-ga-app-version="${esc(version)}" data-ga-platform="${esc(p)}">${esc(label)}${p === "mac" ? " (arm64)" : ""} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n        </a>`;
       } else {
         return `<span class="btn-primary disabled">${esc(label)} — 未リリース</span>`;
       }
@@ -176,6 +178,96 @@ function writeDoc(relPath: string, content: string): void {
   console.log(`  ✓ docs/${relPath}`);
 }
 
+// ---- Google Analytics スニペット生成（Consent Mode v2） ----
+function gaSnippet(): string {
+  if (!GA_MEASUREMENT_ID) return "";
+  const id = esc(GA_MEASUREMENT_ID);
+  return `<!-- Google tag (gtag.js) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+  (function () {
+    if (localStorage.getItem('ga_consent') === 'granted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  })();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', '${id}');
+  document.addEventListener('click', function (e) {
+    var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
+    if (dl) {
+      gtag('event', 'download', {
+        app_id: dl.dataset.gaAppId,
+        app_version: dl.dataset.gaAppVersion,
+        platform: dl.dataset.gaPlatform,
+      });
+    }
+  });
+</script>
+<script>
+  (function () {
+    var CONSENT_KEY = 'ga_consent';
+    function showBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = false;
+    }
+    function hideBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = true;
+    }
+    if (!localStorage.getItem(CONSENT_KEY)) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showBanner);
+      } else {
+        showBanner();
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-consent]');
+      if (btn) {
+        var choice = btn.getAttribute('data-consent');
+        localStorage.setItem(CONSENT_KEY, choice);
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: choice === 'granted' ? 'granted' : 'denied',
+          });
+        }
+        hideBanner();
+        return;
+      }
+      var reset = e.target.closest && e.target.closest('[data-consent-reset]');
+      if (reset) {
+        e.preventDefault();
+        localStorage.removeItem(CONSENT_KEY);
+        showBanner();
+      }
+    });
+  })();
+</script>`;
+}
+
+// ---- Cookie 同意バナー生成 ----
+function cookieBanner(): string {
+  if (!GA_MEASUREMENT_ID) return "";
+  return `<div id="cookie-consent" class="cookie-consent" hidden>
+  <p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p>
+  <div class="cookie-consent-actions">
+    <button type="button" data-consent="denied">拒否する</button>
+    <button type="button" data-consent="granted">同意する</button>
+  </div>
+</div>`;
+}
+
+// ---- プライバシー設定リンク生成 ----
+function privacyLink(root: string): string {
+  if (!GA_MEASUREMENT_ID) return "";
+  return ` · <a href="${root}privacy.html">プライバシー設定</a>`;
+}
+
 // ---- index.html 生成 ----
 function buildIndex(apps: ResolvedApp[]): void {
   const headTpl = readPartial("head.html");
@@ -198,9 +290,13 @@ function buildIndex(apps: ResolvedApp[]): void {
     })
     .join("\n");
 
-  const headHtml = render(headTpl, { TITLE: "seriwb apps", ROOT: "" });
-
-  const html = render(indexTpl, { HEAD: headHtml, CARDS: cards });
+  const headHtml = render(headTpl, { TITLE: "seriwb apps", ROOT: "", GA_SNIPPET: gaSnippet() });
+  const html = render(indexTpl, {
+    HEAD: headHtml,
+    CARDS: cards,
+    COOKIE_BANNER: cookieBanner(),
+    PRIVACY_LINK: privacyLink(""),
+  });
   writeDoc("index.html", html);
 }
 
@@ -222,7 +318,7 @@ function buildAppPage(app: ResolvedApp): void {
       </section>`
       : "";
 
-  const headHtml = render(headTpl, { TITLE: `${def.name} — seriwb apps`, ROOT: "../" });
+  const headHtml = render(headTpl, { TITLE: `${def.name} — seriwb apps`, ROOT: "../", GA_SNIPPET: gaSnippet() });
 
   const html = render(appTpl, {
     HEAD: headHtml,
@@ -238,8 +334,19 @@ function buildAppPage(app: ResolvedApp): void {
     FEATURES: features,
     SCREENSHOTS_SECTION: screenshotsSection,
     UPDATED: esc(formatDate(app.publishedAt)),
+    COOKIE_BANNER: cookieBanner(),
+    PRIVACY_LINK: privacyLink("../"),
   });
   writeDoc(`apps/${def.id}.html`, html);
+}
+
+// ---- プライバシー設定ページ生成 ----
+function buildPrivacyPage(): void {
+  const headTpl = readPartial("head.html");
+  const privacyTpl = readTemplate("privacy.html");
+  const headHtml = render(headTpl, { TITLE: "プライバシー設定 — seriwb apps", ROOT: "", GA_SNIPPET: gaSnippet() });
+  const html = render(privacyTpl, { HEAD: headHtml, ROOT: "" });
+  writeDoc("privacy.html", html);
 }
 
 // ---- エントリポイント ----
@@ -257,6 +364,14 @@ async function main(): Promise<void> {
     return resolveApp(def, releases);
   });
 
+  console.log("\n📦 アプリのバージョン:");
+  for (const app of apps) {
+    const versionLabel = app.version === "未リリース" ? "未リリース" : `v${app.version}`;
+    const dateLabel = app.publishedAt ? ` (${app.publishedAt.slice(0, 10)})` : "";
+    console.log(`   ${app.def.id}: ${versionLabel}${dateLabel}`);
+  }
+  console.log(`📊 Google Analytics: ${GA_MEASUREMENT_ID || "未設定 (スニペットを出力しません)"}`);
+
   // .nojekyll を保証
   fs.writeFileSync(path.join(ROOT, "docs", ".nojekyll"), "", "utf-8");
 
@@ -265,6 +380,7 @@ async function main(): Promise<void> {
   for (const app of apps) {
     buildAppPage(app);
   }
+  if (GA_MEASUREMENT_ID) buildPrivacyPage();
 
   console.log("\n✅ ビルド完了");
 }

@@ -19,6 +19,47 @@ npm run preview  # http://localhost:8080 で確認
 
 ---
 
+## Google Analyticsの設定
+
+サイトはGoogle Analytics 4 (GA4) の組み込みに対応しています。設定しない場合はスニペットもCookie同意バナーも出力されません。
+
+### ローカル環境
+
+```bash
+cp .env.example .env
+# .envを開いてGA_MEASUREMENT_ID=G-XXXXXXXXXXを設定
+npm run build
+```
+
+### GitHub Actions（本番）
+
+リポジトリの`Settings → Secrets and variables → Actions`に以下を登録します。
+
+| Secret 名           | 値                                  |
+| ------------------- | ----------------------------------- |
+| `GA_MEASUREMENT_ID` | `G-XXXXXXXXXX`（GA4のプロパティID） |
+
+`push`または`workflow_dispatch`で`deploy.yml`が実行されると、ビルド時にスニペットが埋め込まれます。
+
+### 計測内容
+
+| 計測項目     | GA4 イベント        | パラメータ                          |
+| ------------ | ------------------- | ----------------------------------- |
+| ページ表示   | `page_view`（自動） | —                                   |
+| ダウンロード | `download`          | `app_id`, `app_version`, `platform` |
+
+### Cookie同意バナー
+
+GA4は**Google Consent Mode v2 + オプトイン型**で実装されています。
+
+- 初回訪問時にページ下部にバナーを表示
+- 「同意する」を押すまでクッキーを設定せず、匿名のcookieless pingのみ送信
+- 「拒否する」を押すと計測しない（ページをまたいで記憶）
+- フッターの「プライバシー設定」リンクから選択を変更可能
+- 選択は`localStorage`の`ga_consent`キーに保存
+
+---
+
 ## ファイル構成
 
 ```
@@ -34,9 +75,9 @@ my-apps/
     └── build-site.mts            # apps.yml + apps/<id>.yml を読んでHTMLを生成
 ```
 
-アプリのメタデータ（機能説明・tagline・notesなど）の **一次情報源は各アプリリポジトリ** の `.app-meta.yml` です。`apps/<id>.yml` はリリース時に自動転送されるコピーであり、直接編集しないでください。
+アプリのメタデータ（機能説明・tagline・notesなど）の**一次情報源は各アプリリポジトリ**の`.app-meta.yml`です。`apps/<id>.yml`はリリース時に自動転送されるコピーであり、直接編集しないでください。
 
-スクリーンショット画像の **一次情報源も各アプリリポジトリ** の `docs/screenshots/` ディレクトリです。`docs/assets/screenshots/<id>/` はリリース時に自動転送されるコピーです。
+スクリーンショット画像の**一次情報源も各アプリリポジトリ**の`docs/screenshots/`ディレクトリです。`docs/assets/screenshots/<id>/`はリリース時に自動転送されるコピーです。
 
 ---
 

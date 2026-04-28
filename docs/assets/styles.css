@@ -343,6 +343,71 @@ main.container {
   color: var(--text);
 }
 
+/* Cookie 同意バナー */
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #24292f;
+  color: #f6f8fa;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  z-index: 1000;
+  border-top: 1px solid #444c56;
+  font-size: 13px;
+}
+
+/* display:flex が UA の [hidden]{display:none} を上書きするため明示的に打ち消す */
+.cookie-consent[hidden] {
+  display: none;
+}
+
+.cookie-consent-text {
+  flex: 1;
+  min-width: 200px;
+  line-height: 1.5;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.cookie-consent-actions button {
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  line-height: 20px;
+}
+
+.cookie-consent-actions button[data-consent="denied"] {
+  background: transparent;
+  border-color: #444c56;
+  color: #adbac7;
+}
+.cookie-consent-actions button[data-consent="denied"]:hover {
+  background: #32383f;
+  color: #f6f8fa;
+}
+
+.cookie-consent-actions button[data-consent="granted"] {
+  background: var(--accent);
+  border-color: rgba(31, 136, 61, 0.4);
+  color: #ffffff;
+}
+.cookie-consent-actions button[data-consent="granted"]:hover {
+  background: var(--accent-hover);
+}
+
 /* レスポンシブ */
 @media (max-width: 600px) {
   .app-hero {
