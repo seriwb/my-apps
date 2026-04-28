@@ -133,7 +133,7 @@ function downloadButtons(app: ResolvedApp): string {
       const url = downloadUrls[p];
       const label = PLATFORM_LABEL[p] ?? p;
       if (url) {
-        return `<a class="btn-primary" href="${esc(url)}" download data-ga-event="download" data-ga-app-id="${esc(def.id)}" data-ga-app-version="${esc(version)}" data-ga-platform="${esc(p)}">${esc(label)}${p === "mac" ? " (arm64)" : ""} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n        </a>`;
+        return `<a class="btn-primary" href="${esc(url)}" download data-ga-event="download" data-ga-app-id="${esc(def.id)}" data-ga-app-version="${esc(version)}" data-ga-platform="${esc(p)}">${esc(label)}${p === "mac" ? " (arm64)" : p === "win" ? " (64bit)" : ""} <span style="font-size:12px;opacity:0.8;">v${esc(version)}</span>\n        </a>`;
       } else {
         return `<span class="btn-primary disabled">${esc(label)} — 未リリース</span>`;
       }
