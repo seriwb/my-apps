@@ -3,3 +3,4 @@ repo: my-apps
 
 apps:
   - id: picture-converter
+  - id: movie2music

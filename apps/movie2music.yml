@@ -1,0 +1,42 @@
+id: movie2music
+name: movie2music
+tagline: 動画ファイルからAAC音声（.m4a）を抽出するデスクトップアプリケーション
+description: |
+  動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC形式の音声ファイル（.m4a）を抽出・変換するデスクトップアプリケーションです。
+  ドラッグ&ドロップまたはファイル選択で動画を追加し、ビットレート・サンプルレート・チャンネル等を指定して変換できます。
+  変換のデフォルト設定は最高音質です。
+
+  ※ 変換処理には別途ffmpeg/ffprobeのインストールが必要です。アプリ起動時に存在チェックを行い、見つからない場合はエラーを表示します。
+
+  推奨インストール方法:
+    - macOS: `brew install ffmpeg`
+    - Windows: https://ffmpeg.org/download.html からビルド済みバイナリをダウンロードし、ffmpeg.exe / ffprobe.exe をPATHの通ったフォルダに配置
+
+  HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むffmpegビルドが必要です（macOSは `brew tap homebrew-ffmpeg/ffmpeg && brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。AAC-LCのみ使用する場合は標準ビルドで問題ありません。
+icon: assets/icons/movie2music.png
+screenshots: []
+features:
+  - 動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC音声（.m4a）を抽出
+  - ドラッグ&ドロップ／ファイル選択で複数ファイルを追加可能
+  - AAC-LC / HE-AAC v1 / HE-AAC v2 プロファイルを選択可能
+  - ビットレート（64〜320kbps）／サンプルレート（44100/48000Hz）／チャンネル（モノラル/ステレオ）を設定可能
+  - ffprobeによる動画メタデータ表示（長さ・解像度・映像/音声コーデック）
+  - 変換進捗のリアルタイム表示・キャンセル対応
+  - 出力先フォルダの選択（デフォルトは入力ファイルと同じフォルダ）
+platforms:
+  - mac
+  - win
+release_tag_prefix: movie2music-v
+asset_patterns:
+  mac: ".dmg"
+  win: "x64-setup.exe"
+notes:
+  mac: |
+    現在コード署名なしのビルドです。初回起動時はGatekeeperのブロックが表示される場合があります。
+    ブロックされた場合、システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。
+
+    変換にはffmpeg/ffprobeが必要です。Homebrewで`brew install ffmpeg`でインストールしてください。
+    HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むビルドが必要です（`brew tap homebrew-ffmpeg/ffmpeg && brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。
+  win: |
+    変換にはffmpeg/ffprobeが必要です。
+    https://ffmpeg.org/download.html からビルド済みバイナリをダウンロードし、ffmpeg.exe/ffprobe.exe をPATHの通ったフォルダに配置してください。
