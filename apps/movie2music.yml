@@ -32,8 +32,13 @@ asset_patterns:
   win: "x64-setup.exe"
 notes:
   mac: |
-    現在コード署名なしのビルドです。初回起動時はGatekeeperのブロックが表示される場合があります。
-    ブロックされた場合、システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。
+    本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
+    「"movie2music"は壊れているため開けません」というエラーが表示されます。
+    アプリが破損しているわけではなく、macOS Gatekeeperによる保護機能の動作です。
+
+    解除には以下のいずれかを実行してください：
+    - ターミナルで実行: xattr -dr com.apple.quarantine /Applications/movie2music.app
+    - もしくはFinderで movie2music.app を右クリック→「開く」→警告ダイアログで「開く」を選択
 
     変換にはffmpeg/ffprobeが必要です。Homebrewで`brew install ffmpeg`でインストールしてください。
     HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むビルドが必要です（`brew tap homebrew-ffmpeg/ffmpeg && brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。
