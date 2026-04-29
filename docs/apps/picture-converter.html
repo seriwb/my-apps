@@ -7,7 +7,72 @@
 <title>Picture Converter — seriwb apps</title>
 <link rel="stylesheet" href="../assets/styles.css" />
 <link rel="icon" type="image/png" href="../assets/icons/picture-converter.png" />
-
+<!-- Google tag (gtag.js) -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+  (function () {
+    if (localStorage.getItem('ga_consent') === 'granted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  })();
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script>
+<script>
+  gtag('js', new Date());
+  gtag('config', 'G-8QCM1F6FJ3');
+  document.addEventListener('click', function (e) {
+    var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
+    if (dl) {
+      gtag('event', 'download', {
+        app_id: dl.dataset.gaAppId,
+        app_version: dl.dataset.gaAppVersion,
+        platform: dl.dataset.gaPlatform,
+      });
+    }
+  });
+</script>
+<script>
+  (function () {
+    var CONSENT_KEY = 'ga_consent';
+    function showBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = false;
+    }
+    function hideBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = true;
+    }
+    if (!localStorage.getItem(CONSENT_KEY)) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showBanner);
+      } else {
+        showBanner();
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-consent]');
+      if (btn) {
+        var choice = btn.getAttribute('data-consent');
+        localStorage.setItem(CONSENT_KEY, choice);
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: choice === 'granted' ? 'granted' : 'denied',
+          });
+        }
+        hideBanner();
+        return;
+      }
+      var reset = e.target.closest && e.target.closest('[data-consent-reset]');
+      if (reset) {
+        e.preventDefault();
+        localStorage.removeItem(CONSENT_KEY);
+        showBanner();
+      }
+    });
+  })();
+</script>
 </head>
 
 <body>
@@ -77,11 +142,17 @@ EXIFが取得できる場合、撮影日時・GPS座標を抽出し、自動生�
     <p class="app-updated">最終更新: 2026/04/25</p>
   </main>
 
-  
+  <div id="cookie-consent" class="cookie-consent" hidden>
+  <p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p>
+  <div class="cookie-consent-actions">
+    <button type="button" data-consent="denied">拒否する</button>
+    <button type="button" data-consent="granted">同意する</button>
+  </div>
+</div>
 
   <footer class="site-footer">
     <div class="container">
-      <p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a></p>
+      <p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a> · <a href="../privacy.html">プライバシー設定</a></p>
     </div>
   </footer>
 </body>
