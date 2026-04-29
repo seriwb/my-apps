@@ -11,6 +11,12 @@ on:
     #   -f client_payload[app_id]=picture-converter
     types: [app-released]
   workflow_dispatch:
+  workflow_run:
+    # update-app-meta.ymlのGITHUB_TOKEN pushは他ワークフローを起動しないため
+    # workflow_runで連鎖させる
+    workflows: ["Update App Metadata"]
+    types: [completed]
+    branches: [main]
 
 concurrency:
   group: pages
@@ -23,6 +29,8 @@ permissions:
 
 jobs:
   build-and-deploy:
+    # workflow_runは失敗時にも発火するため、成功時のみ実行
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

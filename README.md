@@ -188,7 +188,8 @@ dispatch を受けた `update-app-meta.yml` が以下を行います:
 
 1. `apps/<id>.yml` を更新
 2. `has_screenshots=true` の場合、アプリリポジトリの `docs/screenshots/` をスパースクローンし `docs/assets/screenshots/<id>/` へコピー
-3. git commit & push → `deploy.yml` が自動起動してサイトを再ビルド
+3. git commit & push（`GITHUB_TOKEN`のためpushでは`deploy.yml`は起動しない）
+4. `update-app-meta.yml`完了後、`deploy.yml`が`workflow_run`トリガーで連鎖起動してサイトを再ビルド
 
 ---
 
