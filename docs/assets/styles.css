@@ -245,6 +245,163 @@ main.container {
   line-height: 1.6;
 }
 
+/* 更新履歴セクション */
+.app-release-notes .release-note {
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  background: var(--bg);
+}
+
+.app-release-notes .release-note-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.app-release-notes .release-note-title {
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+}
+
+.app-release-notes .release-note-date {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.app-release-notes .release-note-link {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.app-release-notes .release-note-body {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+.app-release-notes .release-note-body h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 12px 0 6px;
+}
+
+.app-release-notes .release-note-body h5,
+.app-release-notes .release-note-body h6 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 10px 0 4px;
+}
+
+.app-release-notes .release-note-body p {
+  margin: 6px 0;
+}
+
+.app-release-notes .release-note-body ul,
+.app-release-notes .release-note-body ol {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+.app-release-notes .release-note-body li {
+  margin: 2px 0;
+}
+
+.app-release-notes .release-note-body code {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.app-release-notes .release-note-body pre {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+.app-release-notes .release-note-body pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: inherit;
+}
+
+.app-release-notes .release-note-body blockquote {
+  border-left: 3px solid var(--border);
+  padding: 0 12px;
+  color: var(--text-muted);
+  margin: 8px 0;
+}
+
+.app-release-notes .release-note-body table {
+  border-collapse: collapse;
+  margin: 8px 0;
+  font-size: 12px;
+}
+
+.app-release-notes .release-note-body th,
+.app-release-notes .release-note-body td {
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+}
+
+.app-release-notes .release-note-body th {
+  background: var(--bg-subtle);
+}
+
+.app-release-notes .release-note-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.app-release-notes .release-notes-archive {
+  margin-top: 8px;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  padding: 8px 16px;
+  background: var(--bg-subtle);
+}
+
+.app-release-notes .release-notes-archive[open] {
+  padding-bottom: 16px;
+}
+
+.app-release-notes .release-notes-archive > summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--link);
+  padding: 4px 0;
+  user-select: none;
+}
+
+.app-release-notes .release-notes-archive > summary:hover {
+  text-decoration: underline;
+}
+
+.app-release-notes .release-notes-archive .release-note {
+  background: var(--bg);
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
 .app-updated {
   font-size: 12px;
   color: var(--text-muted);

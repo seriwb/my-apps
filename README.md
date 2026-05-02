@@ -10,9 +10,9 @@
 ## ローカル開発
 
 ```bash
-npm install
-npm run build    # docs/以下の静的HTMLを生成
-npm run preview  # http://localhost:8080 で確認
+pnpm install
+pnpm run build    # docs/以下の静的HTMLを生成
+pnpm run preview  # http://localhost:8080 で確認
 ```
 
 `GH_TOKEN`環境変数を設定しておくと、GitHub Releases APIのrate limitを回避できます。
@@ -28,7 +28,7 @@ npm run preview  # http://localhost:8080 で確認
 ```bash
 cp .env.example .env
 # .envを開いてGA_MEASUREMENT_ID=G-XXXXXXXXXXを設定
-npm run build
+pnpm run build
 ```
 
 ### GitHub Actions（本番）
@@ -121,7 +121,7 @@ asset_patterns:
 ### 4. 動作確認してpushする
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ---

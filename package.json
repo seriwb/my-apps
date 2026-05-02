@@ -2,13 +2,19 @@
   "name": "my-apps-site",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
     "build": "tsx scripts/build-site.mts",
     "preview": "python3 -m http.server 8080 --directory docs"
   },
+  "dependencies": {
+    "marked": "18.0.3",
+    "sanitize-html": "2.17.3"
+  },
   "devDependencies": {
     "@types/js-yaml": "4.0.9",
     "@types/node": "22.10.0",
+    "@types/sanitize-html": "2.16.1",
     "dotenv": "17.4.2",
     "js-yaml": "4.1.0",
     "tsx": "4.21.0",

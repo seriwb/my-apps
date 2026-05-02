@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import yaml from "js-yaml";
+import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -52,8 +54,18 @@ interface ReleaseAsset {
 
 interface Release {
   tag_name: string;
+  name: string | null;
+  body: string | null;
   published_at: string;
   assets: ReleaseAsset[];
+}
+
+interface ResolvedReleaseNote {
+  tag: string;
+  version: string;
+  publishedAt: string;
+  name: string | null;
+  body: string;
 }
 
 interface ResolvedApp {
@@ -61,6 +73,7 @@ interface ResolvedApp {
   version: string;
   publishedAt: string | null;
   downloadUrls: Record<string, string>;
+  releases: ResolvedReleaseNote[];
 }
 
 // ---- HTML エスケープ ----
@@ -85,12 +98,22 @@ async function fetchReleases(owner: string, repo: string): Promise<Release[]> {
 
 // ---- アプリごとに最新 release と asset URL を解決 ----
 function resolveApp(def: AppDef, releases: Release[]): ResolvedApp {
-  const latest = releases
+  const filtered = releases
     .filter((r) => r.tag_name.startsWith(def.release_tag_prefix))
-    .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())[0];
+    .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime());
+
+  const latest = filtered[0];
+
+  const releaseNotes: ResolvedReleaseNote[] = filtered.map((r) => ({
+    tag: r.tag_name,
+    version: r.tag_name.slice(def.release_tag_prefix.length),
+    publishedAt: r.published_at,
+    name: r.name,
+    body: (r.body ?? "").trim(),
+  }));
 
   if (!latest) {
-    return { def, version: "未リリース", publishedAt: null, downloadUrls: {} };
+    return { def, version: "未リリース", publishedAt: null, downloadUrls: {}, releases: releaseNotes };
   }
 
   const version = latest.tag_name.slice(def.release_tag_prefix.length);
@@ -101,7 +124,7 @@ function resolveApp(def: AppDef, releases: Release[]): ResolvedApp {
     if (asset) downloadUrls[platform] = asset.browser_download_url;
   }
 
-  return { def, version, publishedAt: latest.published_at, downloadUrls };
+  return { def, version, publishedAt: latest.published_at, downloadUrls, releases: releaseNotes };
 }
 
 // ---- テンプレートのシンプルな置換エンジン ----
@@ -152,6 +175,86 @@ function notesSection(notes: AppNotes | undefined, downloadUrls: Record<string, 
   }
   if (lines.length === 0) return "";
   return `<div class="note-box">${lines.join("<br/><br/>")}</div>`;
+}
+
+// ---- marked の設定（GFM 有効、見出しを h4–h6 に格下げしてページ階層との衝突を防ぐ） ----
+marked.use({
+  gfm: true,
+  renderer: {
+    heading({ tokens, depth }) {
+      const text = this.parser?.parseInline(tokens) ?? '';
+      const level = Math.min(depth + 3, 6);
+      return `<h${level}>${text}</h${level}>\n`;
+    },
+  },
+});
+
+const RELEASE_NOTE_SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    "h4", "h5", "h6",
+    "p", "br", "hr",
+    "strong", "em", "del", "code", "pre",
+    "blockquote",
+    "ul", "ol", "li",
+    "a", "img",
+    "table", "thead", "tbody", "tr", "th", "td",
+    "input",
+  ],
+  allowedAttributes: {
+    a: ["href", "title", "rel", "target"],
+    img: ["src", "alt", "title", "width", "height"],
+    code: ["class"],
+    pre: ["class"],
+    input: ["type", "checked", "disabled"],
+    th: ["align"],
+    td: ["align"],
+  },
+  allowedSchemes: ["http", "https", "mailto"],
+  allowedSchemesByTag: { img: ["http", "https"] },
+  transformTags: {
+    a: sanitizeHtml.simpleTransform("a", { rel: "noopener noreferrer", target: "_blank" }),
+  },
+};
+
+// ---- 日付のみフォーマット（YYYY/MM/DD） ----
+function formatYmd(iso: string): string {
+  const d = new Date(iso);
+  return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
+}
+
+// ---- リリースノートセクションの HTML 生成 ----
+function renderReleaseNotes(owner: string, repo: string, releases: ResolvedReleaseNote[]): string {
+  if (releases.length === 0) return "";
+
+  const renderOne = (r: ResolvedReleaseNote): string => {
+    const ghUrl = `https://github.com/${owner}/${repo}/releases/tag/${r.tag}`;
+    const bodySection = r.body.length > 0
+      ? `\n  <div class="release-note-body">\n${sanitizeHtml(marked.parse(r.body, { async: false }) as string, RELEASE_NOTE_SANITIZE_OPTIONS)}\n  </div>`
+      : "";
+    return `<article class="release-note">
+  <header class="release-note-header">
+    <h3 class="release-note-title">v${esc(r.version)}<span class="release-note-date">${esc(formatYmd(r.publishedAt))}</span></h3>
+    <a class="release-note-link" href="${esc(ghUrl)}" target="_blank" rel="noopener noreferrer">GitHubで見る</a>
+  </header>${bodySection}
+</article>`;
+  };
+
+  const head = releases.slice(0, 10).map(renderOne).join("\n");
+  const tail = releases.slice(10).map(renderOne).join("\n");
+
+  const tailBlock =
+    tail.length > 0
+      ? `<details class="release-notes-archive">
+  <summary>過去のリリース</summary>
+${tail}
+</details>`
+      : "";
+
+  return `<section class="app-section app-release-notes">
+  <h2 class="section-title">更新履歴</h2>
+${head}
+${tailBlock}
+</section>`;
 }
 
 // ---- 最終更新日のフォーマット ----
@@ -301,7 +404,7 @@ function buildIndex(apps: ResolvedApp[]): void {
 }
 
 // ---- アプリ詳細ページ生成 ----
-function buildAppPage(app: ResolvedApp): void {
+function buildAppPage(app: ResolvedApp, owner: string, repo: string): void {
   const headTpl = readPartial("head.html");
   const appTpl = readTemplate("app.html");
   const { def } = app;
@@ -336,6 +439,7 @@ function buildAppPage(app: ResolvedApp): void {
     UPDATED: esc(formatDate(app.publishedAt)),
     COOKIE_BANNER: cookieBanner(),
     PRIVACY_LINK: privacyLink("../"),
+    RELEASE_NOTES: renderReleaseNotes(owner, repo, app.releases),
   });
   writeDoc(`apps/${def.id}.html`, html);
 }
@@ -378,7 +482,7 @@ async function main(): Promise<void> {
   console.log("\n📄 ページを生成中 ...");
   buildIndex(apps);
   for (const app of apps) {
-    buildAppPage(app);
+    buildAppPage(app, config.owner, config.repo);
   }
   if (GA_MEASUREMENT_ID) buildPrivacyPage();
 

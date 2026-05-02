@@ -4,19 +4,21 @@ on:
   push:
     branches:
       - main
-  repository_dispatch:
-    # 各アプリリポジトリからリリース完了時に以下のコマンドで通知する:
-    # gh api -X POST repos/seriwb/my-apps/dispatches \
-    #   -f event_type=app-released \
-    #   -f client_payload[app_id]=picture-converter
-    types: [app-released]
+  # MEMO: 現在利用していない
+  # repository_dispatch:
+  #   # 各アプリリポジトリからリリース完了時に以下のコマンドで通知する:
+  #   # gh api -X POST repos/seriwb/my-apps/dispatches \
+  #   #   -f event_type=app-released \
+  #   #   -f client_payload[app_id]=picture-converter
+  #   types: [app-released]
   workflow_dispatch:
-  workflow_run:
-    # update-app-meta.ymlのGITHUB_TOKEN pushは他ワークフローを起動しないため
-    # workflow_runで連鎖させる
-    workflows: ["Update App Metadata"]
-    types: [completed]
-    branches: [main]
+  # MEMO: リリースノートを更新してからデプロイするフローにするため、コメントアウト
+  # workflow_run:
+  #   # update-app-meta.ymlのGITHUB_TOKEN pushは他ワークフローを起動しないため
+  #   # workflow_runで連鎖させる
+  #   workflows: ["Update App Metadata"]
+  #   types: [completed]
+  #   branches: [main]
 
 concurrency:
   group: pages
@@ -39,15 +41,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        # version は package.json の packageManager フィールドから自動検出
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
+          cache: 'pnpm'
 
       - name: 依存関係をインストール
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: 静的HTMLを生成
-        run: npm run build
+        run: pnpm run build
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}

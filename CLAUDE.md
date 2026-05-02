@@ -21,12 +21,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## コマンド
 
 ```bash
-npm install          # 依存関係のインストール
-npm run build        # docs/ 以下の静的 HTML を生成
-npm run preview      # http://localhost:8080 でビルド結果を確認（python3 http.server）
+pnpm install         # 依存関係のインストール
+pnpm run build       # docs/ 以下の静的 HTML を生成
+pnpm run preview     # http://localhost:8080 でビルド結果を確認（python3 http.server）
 ```
 
-`GH_TOKEN` 環境変数を設定しておくと、`npm run build` 中の GitHub Releases API レートリミットを回避できる。
+`GH_TOKEN` 環境変数を設定しておくと、`pnpm run build` 中の GitHub Releases API レートリミットを回避できる。
 `GA_MEASUREMENT_ID` 環境変数（形式: `G-XXXXXXXXXX`）を設定するとGA4スニペットと Cookie 同意バナーが生成される。未設定時はどちらも出力されない。  
 ローカルでは `.env` ファイルに記載（`.env.example` 参照）。
 
@@ -67,6 +67,6 @@ npm run preview      # http://localhost:8080 でビルド結果を確認（pytho
 1. `apps.yml` に `- id: <new-id>` を追記（表示順に挿入）
 2. `apps/<new-id>.yml` を初期作成（以降はアプリ側からの自動転送に移行）
 3. アイコン `docs/assets/icons/<new-id>.png` を配置
-4. `npm run build` で確認後 push
+4. `pnpm run build` で確認後 push
 
 `app_id` に使える文字は英小文字・数字・ハイフンのみ（先頭は英小文字か数字）。`update-app-meta.yml` の検証正規表現: `^[a-z0-9][a-z0-9-]*$`
