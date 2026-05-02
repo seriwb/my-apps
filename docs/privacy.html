@@ -1,26 +1,12 @@
 <!doctype html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>プライバシー設定 — seriwb apps</title>
-<link rel="stylesheet" href="assets/styles.css" />
-<link rel="icon" type="image/png" href="assets/icons/picture-converter.png" />
-<!-- Google tag (gtag.js) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
+<html lang="ja"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script><title>プライバシー設定 — seriwb apps</title><link rel="icon" type="image/png" href="assets/icons/picture-converter.png"/><link rel="stylesheet" href="assets/styles.css"/><script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
   (function () {
     if (localStorage.getItem('ga_consent') === 'granted') {
       gtag('consent', 'update', { analytics_storage: 'granted' });
     }
-  })();
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script>
-<script>
-  gtag('js', new Date());
+  })();</script><script>gtag('js', new Date());
   gtag('config', 'G-8QCM1F6FJ3');
   document.addEventListener('click', function (e) {
     var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
@@ -31,10 +17,7 @@
         platform: dl.dataset.gaPlatform,
       });
     }
-  });
-</script>
-<script>
-  (function () {
+  });</script><script>(function () {
     var CONSENT_KEY = 'ga_consent';
     function showBanner() {
       var el = document.getElementById('cookie-consent');
@@ -71,83 +54,33 @@
         showBanner();
       }
     });
-  })();
-</script>
-</head>
+  })();</script></head><body><header class="site-header"><div class="container"><a class="back-link" href="index.html">← seriwb apps</a></div></header><main class="container"><section class="app-section"><h1 class="app-hero-title" style="margin-bottom:8px">プライバシー設定</h1><p style="color:var(--text-muted)">Google Analyticsによるアクセス計測の許可・拒否を設定できます。</p></section><section class="app-section"><h2 class="section-title">収集する情報</h2><ul class="feature-list"><li>ページの表示回数</li><li>アプリのダウンロード数（アプリ名・バージョン・OS別）</li></ul><p style="margin-top:12px;font-size:13px;color:var(--text-muted)">収集したデータはGoogle Analyticsに送信されます。IPアドレスは匿名化されます。Cookieは「許可する」を選択した場合のみ設定されます。</p></section><section class="app-section"><h2 class="section-title">現在の設定</h2><p id="privacy-status" style="margin-bottom:16px;font-weight:500"></p><div class="download-grid"><button type="button" class="btn-primary" data-consent="granted">計測を許可する</button><button type="button" class="btn-secondary" data-consent="denied">計測を拒否する</button></div><p id="privacy-saved" style="display:none;margin-top:12px;color:var(--accent);font-size:13px">設定を保存しました。</p></section></main><footer class="site-footer"><div class="container"><p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a></p></div></footer><script>(function () {
+  var status = document.getElementById('privacy-status');
+  var saved = document.getElementById('privacy-saved');
+  var savedTimer = null;
 
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a class="back-link" href="index.html">← seriwb apps</a>
-    </div>
-  </header>
+  function updateStatus() {
+    var val = localStorage.getItem('ga_consent');
+    if (val === 'granted') {
+      status.textContent = '現在、計測を許可しています。';
+      status.style.color = 'var(--accent)';
+    } else if (val === 'denied') {
+      status.textContent = '現在、計測を拒否しています。';
+      status.style.color = 'var(--text-muted)';
+    } else {
+      status.textContent = '未設定（計測は行われていません）。';
+      status.style.color = 'var(--text-muted)';
+    }
+  }
 
-  <main class="container">
-    <section class="app-section">
-      <h1 class="app-hero-title" style="margin-bottom:8px;">プライバシー設定</h1>
-      <p style="color:var(--text-muted);">Google Analytics によるアクセス計測の許可・拒否を設定できます。</p>
-    </section>
+  updateStatus();
 
-    <section class="app-section">
-      <h2 class="section-title">収集する情報</h2>
-      <ul class="feature-list">
-        <li>ページの表示回数</li>
-        <li>アプリのダウンロード数（アプリ名・バージョン・OS別）</li>
-      </ul>
-      <p style="margin-top:12px; font-size:13px; color:var(--text-muted);">
-        収集したデータは Google Analyticsに送信されます。IPアドレスは匿名化されます。Cookieは「許可する」を選択した場合のみ設定されます。
-      </p>
-    </section>
-
-    <section class="app-section">
-      <h2 class="section-title">現在の設定</h2>
-      <p id="privacy-status" style="margin-bottom:16px; font-weight:500;"></p>
-      <div class="download-grid">
-        <button type="button" class="btn-primary" data-consent="granted">計測を許可する</button>
-        <button type="button" class="btn-secondary" data-consent="denied">計測を拒否する</button>
-      </div>
-      <p id="privacy-saved" style="display:none; margin-top:12px; color:var(--accent); font-size:13px;">設定を保存しました。</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a></p>
-    </div>
-  </footer>
-
-  <script>
-    (function () {
-      var status = document.getElementById('privacy-status');
-      var saved = document.getElementById('privacy-saved');
-      var savedTimer = null;
-
-      function updateStatus() {
-        var val = localStorage.getItem('ga_consent');
-        if (val === 'granted') {
-          status.textContent = '現在、計測を許可しています。';
-          status.style.color = 'var(--accent)';
-        } else if (val === 'denied') {
-          status.textContent = '現在、計測を拒否しています。';
-          status.style.color = 'var(--text-muted)';
-        } else {
-          status.textContent = '未設定（計測は行われていません）。';
-          status.style.color = 'var(--text-muted)';
-        }
-      }
-
-      updateStatus();
-
-      document.addEventListener('click', function (e) {
-        var btn = e.target.closest && e.target.closest('[data-consent]');
-        if (!btn) return;
-        updateStatus();
-        clearTimeout(savedTimer);
-        saved.style.display = 'block';
-        savedTimer = setTimeout(function () { saved.style.display = 'none'; }, 3000);
-      });
-    })();
-  </script>
-</body>
-
-</html>
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('[data-consent]');
+    if (!btn) return;
+    updateStatus();
+    clearTimeout(savedTimer);
+    saved.style.display = 'block';
+    savedTimer = setTimeout(function () { saved.style.display = 'none'; }, 3000);
+  });
+})();</script></body></html>

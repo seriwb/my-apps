@@ -1,26 +1,12 @@
 <!doctype html>
-<html lang="ja">
-
-<head>
-  <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>movie2music — seriwb apps</title>
-<link rel="stylesheet" href="../assets/styles.css" />
-<link rel="icon" type="image/png" href="../assets/icons/picture-converter.png" />
-<!-- Google tag (gtag.js) -->
-<script>
-  window.dataLayer = window.dataLayer || [];
+<html lang="ja"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="preload" as="image" href="../assets/icons/movie2music.png"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script><title>movie2music — seriwb apps</title><link rel="icon" type="image/png" href="../assets/icons/picture-converter.png"/><link rel="stylesheet" href="../assets/styles.css"/><script>window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
   (function () {
     if (localStorage.getItem('ga_consent') === 'granted') {
       gtag('consent', 'update', { analytics_storage: 'granted' });
     }
-  })();
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script>
-<script>
-  gtag('js', new Date());
+  })();</script><script>gtag('js', new Date());
   gtag('config', 'G-8QCM1F6FJ3');
   document.addEventListener('click', function (e) {
     var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
@@ -31,10 +17,7 @@
         platform: dl.dataset.gaPlatform,
       });
     }
-  });
-</script>
-<script>
-  (function () {
+  });</script><script>(function () {
     var CONSENT_KEY = 'ga_consent';
     function showBanner() {
       var el = document.getElementById('cookie-consent');
@@ -71,39 +54,7 @@
         showBanner();
       }
     });
-  })();
-</script>
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a class="back-link" href="../index.html">← seriwb apps</a>
-    </div>
-  </header>
-
-  <main class="container">
-    <section class="app-hero">
-      <img class="app-hero-icon" src="../assets/icons/movie2music.png" alt="movie2music icon" width="80" height="80" />
-      <div>
-        <h1 class="app-hero-title">movie2music</h1>
-        <p class="app-hero-tagline">動画ファイルからAAC音声（.m4a）を抽出するデスクトップアプリケーション</p>
-        <div class="app-platforms">
-          <span class="badge badge-mac">macOS</span>
-    <span class="badge badge-win">Windows</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="app-section">
-      <h2 class="section-title">ダウンロード</h2>
-      <div class="download-grid">
-        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/movie2music-v0.1.1/movie2music_0.1.0_aarch64.dmg" download data-ga-event="download" data-ga-app-id="movie2music" data-ga-app-version="0.1.1" data-ga-platform="mac">macOS (arm64) <span style="font-size:12px;opacity:0.8;">v0.1.1</span>
-        </a>
-        <a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/movie2music-v0.1.1/movie2music_0.1.0_x64-setup.exe" download data-ga-event="download" data-ga-app-id="movie2music" data-ga-app-version="0.1.1" data-ga-platform="win">Windows (64bit) <span style="font-size:12px;opacity:0.8;">v0.1.1</span>
-        </a>
-      </div>
-      <div class="note-box">本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
+  })();</script></head><body><header class="site-header"><div class="container"><a class="back-link" href="../index.html">← seriwb apps</a></div></header><main class="container"><section class="app-hero"><img class="app-hero-icon" src="../assets/icons/movie2music.png" alt="movie2music icon" width="80" height="80"/><div><h1 class="app-hero-title">movie2music</h1><p class="app-hero-tagline">動画ファイルからAAC音声（.m4a）を抽出するデスクトップアプリケーション</p><div class="app-platforms"><span class="badge badge-mac">macOS</span><span class="badge badge-win">Windows</span></div></div></section><section class="app-section"><h2 class="section-title">ダウンロード</h2><div class="download-grid"><a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/movie2music-v0.1.1/movie2music_0.1.0_aarch64.dmg" download="" data-ga-event="download" data-ga-app-id="movie2music" data-ga-app-version="0.1.1" data-ga-platform="mac">macOS (arm64) <span style="font-size:12px;opacity:0.8">v0.1.1</span></a><a class="btn-primary" href="https://github.com/seriwb/my-apps/releases/download/movie2music-v0.1.1/movie2music_0.1.0_x64-setup.exe" download="" data-ga-event="download" data-ga-app-id="movie2music" data-ga-app-version="0.1.1" data-ga-platform="win">Windows (64bit) <span style="font-size:12px;opacity:0.8">v0.1.1</span></a></div><div class="note-box">本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
 「&quot;movie2music&quot;は壊れているため開けません」というエラーが表示されます。
 アプリが破損しているわけではなく、macOS Gatekeeperによる保護機能の動作です。
 
@@ -113,12 +64,7 @@
 
 変換にはffmpeg/ffprobeが必要です。Homebrewで`brew install ffmpeg`でインストールしてください。
 HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むビルドが必要です（`brew tap homebrew-ffmpeg/ffmpeg &amp;&amp; brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。<br/><br/>変換にはffmpeg/ffprobeが必要です。
-https://ffmpeg.org/download.html からビルド済みバイナリをダウンロードし、ffmpeg.exe/ffprobe.exe をPATHの通ったフォルダに配置してください。</div>
-    </section>
-
-    <section class="app-section">
-      <h2 class="section-title">説明</h2>
-      <p class="app-description">動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC形式の音声ファイル（.m4a）を抽出・変換するデスクトップアプリケーションです。
+https://ffmpeg.org/download.html からビルド済みバイナリをダウンロードし、ffmpeg.exe/ffprobe.exe をPATHの通ったフォルダに配置してください。</div></section><section class="app-section"><h2 class="section-title">説明</h2><p class="app-description">動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC形式の音声ファイル（.m4a）を抽出・変換するデスクトップアプリケーションです。
 ドラッグ&amp;ドロップまたはファイル選択で動画を追加し、ビットレート・サンプルレート・チャンネル等を指定して変換できます。
 変換のデフォルト設定は最高音質です。
 
@@ -128,61 +74,5 @@ https://ffmpeg.org/download.html からビルド済みバイナリをダウン�
   - macOS: `brew install ffmpeg`
   - Windows: https://ffmpeg.org/download.html からビルド済みバイナリをダウンロードし、ffmpeg.exe / ffprobe.exe をPATHの通ったフォルダに配置
 
-HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むffmpegビルドが必要です（macOSは `brew tap homebrew-ffmpeg/ffmpeg &amp;&amp; brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。AAC-LCのみ使用する場合は標準ビルドで問題ありません。</p>
-    </section>
-
-    <section class="app-section">
-      <h2 class="section-title">主な機能</h2>
-      <ul class="feature-list">
-        <li>動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC音声（.m4a）を抽出</li>
-        <li>ドラッグ&amp;ドロップ／ファイル選択で複数ファイルを追加可能</li>
-        <li>AAC-LC / HE-AAC v1 / HE-AAC v2 プロファイルを選択可能</li>
-        <li>ビットレート（64〜320kbps）／サンプルレート（44100/48000Hz）／チャンネル（モノラル/ステレオ）を設定可能</li>
-        <li>ffprobeによる動画メタデータ表示（長さ・解像度・映像/音声コーデック）</li>
-        <li>変換進捗のリアルタイム表示・キャンセル対応</li>
-        <li>出力先フォルダの選択（デフォルトは入力ファイルと同じフォルダ）</li>
-      </ul>
-    </section>
-
-    
-
-    <section class="app-section app-release-notes">
-  <h2 class="section-title">更新履歴</h2>
-<article class="release-note">
-  <header class="release-note-header">
-    <h3 class="release-note-title">v0.1.1<span class="release-note-date">2026/04/28</span></h3>
-    <a class="release-note-link" href="https://github.com/seriwb/my-apps/releases/tag/movie2music-v0.1.1" target="_blank" rel="noopener noreferrer">GitHubで見る</a>
-  </header>
-</article>
-<article class="release-note">
-  <header class="release-note-header">
-    <h3 class="release-note-title">v0.1.0<span class="release-note-date">2026/04/28</span></h3>
-    <a class="release-note-link" href="https://github.com/seriwb/my-apps/releases/tag/movie2music-v0.1.0" target="_blank" rel="noopener noreferrer">GitHubで見る</a>
-  </header>
-  <div class="release-note-body">
-<p>movie2musicの初回リリース</p>
-
-  </div>
-</article>
-
-</section>
-
-    <p class="app-updated">最終更新: 2026/04/28</p>
-  </main>
-
-  <div id="cookie-consent" class="cookie-consent" hidden>
-  <p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p>
-  <div class="cookie-consent-actions">
-    <button type="button" data-consent="denied">拒否する</button>
-    <button type="button" data-consent="granted">同意する</button>
-  </div>
-</div>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a> · <a href="../privacy.html">プライバシー設定</a></p>
-    </div>
-  </footer>
-</body>
-
-</html>
+HE-AAC v1/v2を使用する場合は`libfdk_aac`を含むffmpegビルドが必要です（macOSは `brew tap homebrew-ffmpeg/ffmpeg &amp;&amp; brew install homebrew-ffmpeg/ffmpeg/ffmpeg --with-fdk-aac`）。AAC-LCのみ使用する場合は標準ビルドで問題ありません。</p></section><section class="app-section"><h2 class="section-title">主な機能</h2><ul class="feature-list"><li>動画ファイル（MP4 / MOV / AVI / MKV / WebM）からAAC音声（.m4a）を抽出</li><li>ドラッグ&amp;ドロップ／ファイル選択で複数ファイルを追加可能</li><li>AAC-LC / HE-AAC v1 / HE-AAC v2 プロファイルを選択可能</li><li>ビットレート（64〜320kbps）／サンプルレート（44100/48000Hz）／チャンネル（モノラル/ステレオ）を設定可能</li><li>ffprobeによる動画メタデータ表示（長さ・解像度・映像/音声コーデック）</li><li>変換進捗のリアルタイム表示・キャンセル対応</li><li>出力先フォルダの選択（デフォルトは入力ファイルと同じフォルダ）</li></ul></section><section class="app-section app-release-notes"><h2 class="section-title">更新履歴</h2><article class="release-note"><header class="release-note-header"><h3 class="release-note-title">v0.1.1<span class="release-note-date">2026/04/28</span></h3><a class="release-note-link" href="https://github.com/seriwb/my-apps/releases/tag/movie2music-v0.1.1" target="_blank" rel="noopener noreferrer">GitHubで見る</a></header></article><article class="release-note"><header class="release-note-header"><h3 class="release-note-title">v0.1.0<span class="release-note-date">2026/04/28</span></h3><a class="release-note-link" href="https://github.com/seriwb/my-apps/releases/tag/movie2music-v0.1.0" target="_blank" rel="noopener noreferrer">GitHubで見る</a></header><div class="release-note-body"><p>movie2musicの初回リリース</p>
+</div></article></section><p class="app-updated">最終更新: 2026/04/28</p></main><div id="cookie-consent" class="cookie-consent" hidden=""><p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p><div class="cookie-consent-actions"><button type="button" data-consent="denied">拒否する</button><button type="button" data-consent="granted">同意する</button></div></div><footer class="site-footer"><div class="container"><p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a> · <a href="../privacy.html">プライバシー設定</a></p></div></footer></body></html>

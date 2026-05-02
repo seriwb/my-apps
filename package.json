@@ -4,16 +4,20 @@
   "type": "module",
   "packageManager": "pnpm@10.33.2",
   "scripts": {
-    "build": "tsx scripts/build-site.mts",
+    "build": "tsx scripts/build-site.tsx",
     "preview": "python3 -m http.server 8080 --directory docs"
   },
   "dependencies": {
     "marked": "18.0.3",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
     "sanitize-html": "2.17.3"
   },
   "devDependencies": {
     "@types/js-yaml": "4.0.9",
     "@types/node": "22.10.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
     "@types/sanitize-html": "2.16.1",
     "dotenv": "17.4.2",
     "js-yaml": "4.1.0",
