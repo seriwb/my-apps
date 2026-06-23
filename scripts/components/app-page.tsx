@@ -19,7 +19,7 @@ function ScreenshotsSection({ app }: { app: ResolvedApp }) {
   if (app.def.screenshots.length === 0) return null;
   return (
     <section className="app-section">
-      <h2 className="section-title">スクリーンショット</h2>
+      <h2 className="section-title" data-en="SCREENSHOTS">スクリーンショット</h2>
       <div className="screenshots">
         {app.def.screenshots.map((s) => (
           <a key={s} href={`../assets/screenshots/${app.def.id}/${s}`} target="_blank" rel="noopener">
@@ -55,18 +55,18 @@ export function AppPage({ app, owner, repo, gaId }: AppPageProps) {
             </div>
           </section>
           <section className="app-section">
-            <h2 className="section-title">ダウンロード</h2>
+            <h2 className="section-title" data-en="DOWNLOAD">ダウンロード</h2>
             <div className="download-grid">
               <DownloadButtons app={app} />
             </div>
             <Notes notes={def.notes} downloadUrls={app.downloadUrls} />
           </section>
           <section className="app-section">
-            <h2 className="section-title">説明</h2>
+            <h2 className="section-title" data-en="ABOUT">説明</h2>
             <p className="app-description">{def.description.trim()}</p>
           </section>
           <section className="app-section">
-            <h2 className="section-title">主な機能</h2>
+            <h2 className="section-title" data-en="FEATURES">主な機能</h2>
             <ul className="feature-list">
               {def.features.map((f, i) => (
                 <li key={i}>{f}</li>

@@ -80,7 +80,7 @@ export function ReleaseNotes({ owner, repo, releases }: ReleaseNotesProps) {
   const tail = releases.slice(10);
   return (
     <section className="app-section app-release-notes">
-      <h2 className="section-title">更新履歴</h2>
+      <h2 className="section-title" data-en="CHANGELOG">更新履歴</h2>
       {head.map((r) => (
         <ReleaseNoteItem key={r.tag} r={r} owner={owner} repo={repo} />
       ))}

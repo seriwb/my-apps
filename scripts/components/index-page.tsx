@@ -16,12 +16,15 @@ export function IndexPage({ apps, gaId }: IndexPageProps) {
       <body>
         <header className="site-header">
           <div className="container">
-            <h1 className="site-title">seriwb apps</h1>
-            <p className="site-description">作成したアプリの配布ページです。</p>
+            <h1 className="site-title">
+              seriwb apps<span className="terminal-cursor">_</span>
+            </h1>
+            <p className="site-description">電脳空間の物理ガジェット配布ページ</p>
+            <p className="site-count">[ TOOLS: {apps.length} ]</p>
           </div>
         </header>
         <main className="container">
-        <div className="app-grid">
+          <div className="app-shelf">
             {apps.map((app) => (
               <Card key={app.def.id} app={app} />
             ))}
