@@ -1,0 +1,37 @@
+id: wav2vox
+name: wav2vox
+tagline: WAV・MP3・M4A等の音声ファイルをVOX形式（Dialogic ADPCM / G.711 uLaw・aLaw）に変換するデスクトップアプリケーション
+description: |
+  WAV・MP3・M4A・AAC・OGG・FLACなどの音声ファイルを、電話システムで広く使われるVOX形式（Dialogic ADPCM、G.711 uLaw/aLaw）に変換するデスクトップアプリケーションです。
+  サンプルレートは6000Hz / 8000Hzのモノラル出力に対応しています。
+
+  ffmpegは不要で、Rust製ライブラリ（symphonia）により内蔵デコードを行います。
+
+  変換前にエフェクトチェーン（音量調整・ノーマライズ・クリック除去・ノイズリダクション・コンプレッサー・イコライザー）を適用できます。
+  ファイル一覧のドラッグ&ドロップ・波形プレビュー・音声再生プレビュー・一括変換（非同期・進捗表示）に対応しています。
+icon: assets/icons/wav2vox.png
+screenshots: []
+features:
+  - 対応入力フォーマット：WAV、MP3、M4A、AAC、OGG、FLAC
+  - 出力フォーマット：Dialogic ADPCM (.vox)、G.711 uLaw (.vox)、G.711 aLaw (.vox)
+  - サンプルレート：6000 Hz / 8000 Hz（モノラル固定）
+  - ffmpeg不要（symphoniaによる内蔵デコード）
+  - ドラッグ&ドロップでファイル追加・一括変換（非同期・進捗表示）
+  - 波形プレビュー（Canvas描画）・音声再生プレビュー
+  - エフェクトチェーン：音量調整 / ノーマライズ / クリック・ポップ除去 / ノイズリダクション / コンプレッサー / イコライザー
+platforms:
+  - mac
+  - win
+release_tag_prefix: wav2vox-v
+asset_patterns:
+  mac: "aarch64.dmg"
+  win: "x64-setup.exe"
+notes:
+  mac: |
+    本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
+    「"wav2vox"は壊れているため開けません」というエラーが表示されます。
+    アプリが破損しているわけではなく、macOS Gatekeeperによる保護機能の動作です。
+
+    解除には以下のいずれかを実行してください：
+    - ターミナルで実行: xattr -dr com.apple.quarantine /Applications/wav2vox.app
+    - もしくはFinderで wav2vox.app を右クリック→「開く」→警告ダイアログで「開く」を選択

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="preload" as="image" href="../assets/icons/wav2vox.png"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/><title>wav2vox — seriwb apps</title><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&amp;family=M+PLUS+1:wght@400;500;700&amp;family=Share+Tech+Mono&amp;display=swap"/><link rel="stylesheet" href="../assets/styles.css"/><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+  (function () {
+    if (localStorage.getItem('ga_consent') === 'granted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  })();</script><script>gtag('js', new Date());
+  gtag('config', 'G-8QCM1F6FJ3');
+  document.addEventListener('click', function (e) {
+    var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
+    if (dl) {
+      gtag('event', 'download', {
+        app_id: dl.dataset.gaAppId,
+        app_version: dl.dataset.gaAppVersion,
+        platform: dl.dataset.gaPlatform,
+      });
+    }
+  });</script><script>(function () {
+    var CONSENT_KEY = 'ga_consent';
+    function showBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = false;
+    }
+    function hideBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = true;
+    }
+    if (!localStorage.getItem(CONSENT_KEY)) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showBanner);
+      } else {
+        showBanner();
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-consent]');
+      if (btn) {
+        var choice = btn.getAttribute('data-consent');
+        localStorage.setItem(CONSENT_KEY, choice);
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: choice === 'granted' ? 'granted' : 'denied',
+          });
+        }
+        hideBanner();
+        return;
+      }
+      var reset = e.target.closest && e.target.closest('[data-consent-reset]');
+      if (reset) {
+        e.preventDefault();
+        localStorage.removeItem(CONSENT_KEY);
+        showBanner();
+      }
+    });
+  })();</script></head><body><header class="site-header"><div class="container"><a class="back-link" href="../index.html">← seriwb apps</a></div></header><main class="container"><section class="app-hero"><img class="app-hero-icon" src="../assets/icons/wav2vox.png" alt="wav2vox icon" width="80" height="80"/><div><h1 class="app-hero-title">wav2vox</h1><p class="app-hero-tagline">WAV・MP3・M4A等の音声ファイルをVOX形式（Dialogic ADPCM / G.711 uLaw・aLaw）に変換するデスクトップアプリケーション</p><div class="app-platforms"><span class="badge badge-mac">macOS</span><span class="badge badge-win">Windows</span></div></div></section><section class="app-section"><h2 class="section-title" data-en="DOWNLOAD">ダウンロード</h2><div class="download-grid"><span class="btn-primary disabled">macOS — 未リリース</span><span class="btn-primary disabled">Windows — 未リリース</span></div></section><section class="app-section"><h2 class="section-title" data-en="ABOUT">説明</h2><p class="app-description">WAV・MP3・M4A・AAC・OGG・FLACなどの音声ファイルを、電話システムで広く使われるVOX形式（Dialogic ADPCM、G.711 uLaw/aLaw）に変換するデスクトップアプリケーションです。
+サンプルレートは6000Hz / 8000Hzのモノラル出力に対応しています。
+
+ffmpegは不要で、Rust製ライブラリ（symphonia）により内蔵デコードを行います。
+
+変換前にエフェクトチェーン（音量調整・ノーマライズ・クリック除去・ノイズリダクション・コンプレッサー・イコライザー）を適用できます。
+ファイル一覧のドラッグ&amp;ドロップ・波形プレビュー・音声再生プレビュー・一括変換（非同期・進捗表示）に対応しています。</p></section><section class="app-section"><h2 class="section-title" data-en="FEATURES">主な機能</h2><ul class="feature-list"><li>対応入力フォーマット：WAV、MP3、M4A、AAC、OGG、FLAC</li><li>出力フォーマット：Dialogic ADPCM (.vox)、G.711 uLaw (.vox)、G.711 aLaw (.vox)</li><li>サンプルレート：6000 Hz / 8000 Hz（モノラル固定）</li><li>ffmpeg不要（symphoniaによる内蔵デコード）</li><li>ドラッグ&amp;ドロップでファイル追加・一括変換（非同期・進捗表示）</li><li>波形プレビュー（Canvas描画）・音声再生プレビュー</li><li>エフェクトチェーン：音量調整 / ノーマライズ / クリック・ポップ除去 / ノイズリダクション / コンプレッサー / イコライザー</li></ul></section></main><div id="cookie-consent" class="cookie-consent" hidden=""><p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p><div class="cookie-consent-actions"><button type="button" data-consent="denied">拒否する</button><button type="button" data-consent="granted">同意する</button></div></div><footer class="site-footer"><div class="container"><p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a> · <a href="../privacy.html">プライバシー設定</a></p></div></footer></body></html>
