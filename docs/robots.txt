@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://seriwb.github.io/my-apps/sitemap.xml

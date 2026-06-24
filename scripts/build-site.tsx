@@ -72,10 +72,40 @@ function renderPage(element: ReactNode): string {
   return "<!doctype html>\n" + renderToStaticMarkup(element);
 }
 
+// sitemap.xml を生成
+function buildSitemap(siteUrl: string, apps: ResolvedApp[], withPrivacy: boolean): string {
+  const urls: string[] = [];
+
+  // トップページ
+  urls.push(`  <url>\n    <loc>${siteUrl}</loc>\n  </url>`);
+
+  // 各アプリページ（lastmod はリリース日）
+  for (const app of apps) {
+    const lastmod = app.publishedAt ? `\n    <lastmod>${app.publishedAt.slice(0, 10)}</lastmod>` : "";
+    urls.push(`  <url>\n    <loc>${siteUrl}apps/${app.def.id}.html</loc>${lastmod}\n  </url>`);
+  }
+
+  // プライバシーページ（GA設定時のみ）
+  if (withPrivacy) {
+    urls.push(`  <url>\n    <loc>${siteUrl}privacy.html</loc>\n  </url>`);
+  }
+
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    ...urls,
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
 // エントリポイント
 async function main(): Promise<void> {
   const configPath = path.join(ROOT, "apps.yml");
   const config = yaml.load(fs.readFileSync(configPath, "utf-8")) as SiteConfig;
+
+  // GitHub Pages の公開URLをowner/repoから導出
+  const SITE_URL = `https://${config.owner}.github.io/${config.repo}/`;
 
   console.log(`🔍 GitHub Releases を取得中 (${config.owner}/${config.repo}) ...`);
   const releases = await fetchReleases(config.owner, config.repo);
@@ -94,20 +124,28 @@ async function main(): Promise<void> {
     console.log(`   ${app.def.id}: ${versionLabel}${dateLabel}`);
   }
   console.log(`📊 Google Analytics: ${GA_MEASUREMENT_ID || "未設定 (スニペットを出力しません)"}`);
+  console.log(`🌐 サイトURL: ${SITE_URL}`);
 
   fs.writeFileSync(path.join(ROOT, "docs", ".nojekyll"), "", "utf-8");
 
   console.log("\n📄 ページを生成中 ...");
-  writeDoc("index.html", renderPage(<IndexPage apps={apps} gaId={GA_MEASUREMENT_ID} />));
+  writeDoc("index.html", renderPage(<IndexPage apps={apps} gaId={GA_MEASUREMENT_ID} siteUrl={SITE_URL} />));
   for (const app of apps) {
     writeDoc(
       `apps/${app.def.id}.html`,
-      renderPage(<AppPage app={app} owner={config.owner} repo={config.repo} gaId={GA_MEASUREMENT_ID} />),
+      renderPage(<AppPage app={app} owner={config.owner} repo={config.repo} gaId={GA_MEASUREMENT_ID} siteUrl={SITE_URL} />),
     );
   }
   if (GA_MEASUREMENT_ID) {
     writeDoc("privacy.html", renderPage(<PrivacyPage gaId={GA_MEASUREMENT_ID} />));
   }
+
+  console.log("\n🗺️  SEOファイルを生成中 ...");
+  writeDoc("sitemap.xml", buildSitemap(SITE_URL, apps, !!GA_MEASUREMENT_ID));
+  writeDoc(
+    "robots.txt",
+    `User-agent: *\nAllow: /\n\nSitemap: ${SITE_URL}sitemap.xml\n`,
+  );
 
   console.log("\n✅ ビルド完了");
 }

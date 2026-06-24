@@ -13,6 +13,15 @@ interface AppPageProps {
   owner: string;
   repo: string;
   gaId: string;
+  siteUrl: string;
+}
+
+/** プラットフォームID（mac/win/linux）をSchema.org向けの表記に変換 */
+function platformLabel(p: string): string {
+  if (p === "mac") return "macOS";
+  if (p === "win") return "Windows";
+  if (p === "linux") return "Linux";
+  return p;
 }
 
 function ScreenshotsSection({ app }: { app: ResolvedApp }) {
@@ -31,12 +40,49 @@ function ScreenshotsSection({ app }: { app: ResolvedApp }) {
   );
 }
 
-export function AppPage({ app, owner, repo, gaId }: AppPageProps) {
+export function AppPage({ app, owner, repo, gaId, siteUrl }: AppPageProps) {
   const { def } = app;
   const updated = formatDate(app.publishedAt);
+  const title = `${def.name} — seriwb apps`;
+  const canonical = `${siteUrl}apps/${def.id}.html`;
+  const ogImage = `${siteUrl}${def.icon}`;
+
+  // SoftwareApplication JSON-LD
+  const jsonLdBase: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: def.name,
+    description: def.tagline,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: def.platforms.map(platformLabel).join(", "),
+    image: ogImage,
+    url: canonical,
+    inLanguage: "ja",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "JPY",
+    },
+    featureList: def.features,
+  };
+  if (app.version !== "未リリース") jsonLdBase.softwareVersion = app.version;
+  if (app.publishedAt) jsonLdBase.datePublished = app.publishedAt.slice(0, 10);
+  const dlUrls = Object.values(app.downloadUrls);
+  if (dlUrls.length > 0) jsonLdBase.downloadUrl = dlUrls.length === 1 ? dlUrls[0] : dlUrls;
+
   return (
     <html lang="ja">
-      <Head title={`${def.name} — seriwb apps`} root="../" gaId={gaId} />
+      <Head
+        title={title}
+        root="../"
+        gaId={gaId}
+        description={def.tagline}
+        canonical={canonical}
+        ogType="article"
+        ogUrl={canonical}
+        ogImage={ogImage}
+        jsonLd={jsonLdBase}
+      />
       <body>
         <header className="site-header">
           <div className="container">
