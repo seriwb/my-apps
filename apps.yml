@@ -5,3 +5,4 @@ apps:
   - id: picture-converter
   - id: movie2music
   - id: wav2vox
+  - id: time-action

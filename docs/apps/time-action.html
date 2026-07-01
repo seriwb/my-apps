@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="preload" as="image" href="../assets/icons/time-action.png"/><link rel="preload" as="image" href="../assets/screenshots/time-action/1.png"/><link rel="preload" as="image" href="../assets/screenshots/time-action/2.png"/><link rel="preload" as="image" href="../assets/screenshots/time-action/3.png"/><link rel="preload" as="image" href="../assets/screenshots/time-action/4.png"/><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-8QCM1F6FJ3"></script><meta name="description" content="指定時刻にキーボードイベントを自動送出するデスクトップツール（Slack等への定期投稿・単発キー送出を自動化）"/><link rel="canonical" href="https://seriwb.github.io/my-apps/apps/time-action.html"/><meta property="og:type" content="article"/><meta property="og:site_name" content="seriwb apps"/><meta property="og:locale" content="ja_JP"/><meta property="og:title" content="Time Action — seriwb apps"/><meta property="og:description" content="指定時刻にキーボードイベントを自動送出するデスクトップツール（Slack等への定期投稿・単発キー送出を自動化）"/><meta property="og:url" content="https://seriwb.github.io/my-apps/apps/time-action.html"/><meta property="og:image" content="https://seriwb.github.io/my-apps/assets/icons/time-action.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Time Action — seriwb apps"/><meta name="twitter:description" content="指定時刻にキーボードイベントを自動送出するデスクトップツール（Slack等への定期投稿・単発キー送出を自動化）"/><meta name="twitter:image" content="https://seriwb.github.io/my-apps/assets/icons/time-action.png"/><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/><title>Time Action — seriwb apps</title><link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/><script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Time Action","description":"指定時刻にキーボードイベントを自動送出するデスクトップツール（Slack等への定期投稿・単発キー送出を自動化）","applicationCategory":"UtilitiesApplication","operatingSystem":"macOS, Windows","image":"https://seriwb.github.io/my-apps/assets/icons/time-action.png","url":"https://seriwb.github.io/my-apps/apps/time-action.html","inLanguage":"ja","offers":{"@type":"Offer","price":"0","priceCurrency":"JPY"},"featureList":["スケジュール管理（once / at / interval / daily、有効・無効切替）","キーキャプチャ入力（実際のキー入力からショートカットを記録）","送出前クリップボード貼り付け（Electron/Chromium系アプリにも確実に到達）","テスト送出（実際に発火させず動作確認）・実行ログ","ウィンドウを閉じてもトレイ常駐しバックグラウンド実行を継続","有効なスケジュール実行中のPCスリープ・自動ロック抑止オプション","macOSアクセシビリティ権限の状態表示・設定画面への導線"]}</script><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&amp;family=M+PLUS+1:wght@400;500;700&amp;family=Share+Tech+Mono&amp;display=swap"/><link rel="stylesheet" href="../assets/styles.css"/><script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied' });
+  (function () {
+    if (localStorage.getItem('ga_consent') === 'granted') {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+    }
+  })();</script><script>gtag('js', new Date());
+  gtag('config', 'G-8QCM1F6FJ3');
+  document.addEventListener('click', function (e) {
+    var dl = e.target.closest && e.target.closest('[data-ga-event="download"]');
+    if (dl) {
+      gtag('event', 'download', {
+        app_id: dl.dataset.gaAppId,
+        app_version: dl.dataset.gaAppVersion,
+        platform: dl.dataset.gaPlatform,
+      });
+    }
+  });</script><script>(function () {
+    var CONSENT_KEY = 'ga_consent';
+    function showBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = false;
+    }
+    function hideBanner() {
+      var el = document.getElementById('cookie-consent');
+      if (el) el.hidden = true;
+    }
+    if (!localStorage.getItem(CONSENT_KEY)) {
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showBanner);
+      } else {
+        showBanner();
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-consent]');
+      if (btn) {
+        var choice = btn.getAttribute('data-consent');
+        localStorage.setItem(CONSENT_KEY, choice);
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            analytics_storage: choice === 'granted' ? 'granted' : 'denied',
+          });
+        }
+        hideBanner();
+        return;
+      }
+      var reset = e.target.closest && e.target.closest('[data-consent-reset]');
+      if (reset) {
+        e.preventDefault();
+        localStorage.removeItem(CONSENT_KEY);
+        showBanner();
+      }
+    });
+  })();</script></head><body><header class="site-header"><div class="container"><a class="back-link" href="../index.html">← seriwb apps</a></div></header><main class="container"><section class="app-hero"><img class="app-hero-icon" src="../assets/icons/time-action.png" alt="Time Action icon" width="80" height="80"/><div><h1 class="app-hero-title">Time Action</h1><p class="app-hero-tagline">指定時刻にキーボードイベントを自動送出するデスクトップツール（Slack等への定期投稿・単発キー送出を自動化）</p><div class="app-platforms"><span class="badge badge-mac">macOS</span><span class="badge badge-win">Windows</span></div></div></section><section class="app-section"><h2 class="section-title" data-en="DOWNLOAD">ダウンロード</h2><div class="download-grid"><span class="btn-primary disabled">macOS — 未リリース</span><span class="btn-primary disabled">Windows — 未リリース</span></div></section><section class="app-section"><h2 class="section-title" data-en="ABOUT">説明</h2><p class="app-description">指定時刻にキーボードイベントを自動送出するデスクトップツールです。
+Slack等のチャットアプリへの定期投稿や、指定時刻での単発キー送出を自動化できます。
+
+スケジュールは「○時間○分○秒後に1回」「指定日時に1回」「○時間おきに繰り返し」「毎日○時○分に繰り返し」の
+4種類に対応。実際のキー入力からショートカットを記録できるキーキャプチャ機能や、送出前にクリップボードへ
+任意の文字列を貼り付ける機能（Slack/Discord/VSCode/Chrome等のElectron/Chromium系アプリにも確実に届く）を備えています。
+
+ウィンドウを閉じてもトレイに常駐し、バックグラウンドでスケジュールを実行し続けます。</p></section><section class="app-section"><h2 class="section-title" data-en="FEATURES">主な機能</h2><ul class="feature-list"><li>スケジュール管理（once / at / interval / daily、有効・無効切替）</li><li>キーキャプチャ入力（実際のキー入力からショートカットを記録）</li><li>送出前クリップボード貼り付け（Electron/Chromium系アプリにも確実に到達）</li><li>テスト送出（実際に発火させず動作確認）・実行ログ</li><li>ウィンドウを閉じてもトレイ常駐しバックグラウンド実行を継続</li><li>有効なスケジュール実行中のPCスリープ・自動ロック抑止オプション</li><li>macOSアクセシビリティ権限の状態表示・設定画面への導線</li></ul></section><section class="app-section"><h2 class="section-title" data-en="SCREENSHOTS">スクリーンショット</h2><div class="screenshots"><a href="../assets/screenshots/time-action/1.png" target="_blank" rel="noopener"><img src="../assets/screenshots/time-action/1.png" alt="Time Action screenshot"/></a><a href="../assets/screenshots/time-action/2.png" target="_blank" rel="noopener"><img src="../assets/screenshots/time-action/2.png" alt="Time Action screenshot"/></a><a href="../assets/screenshots/time-action/3.png" target="_blank" rel="noopener"><img src="../assets/screenshots/time-action/3.png" alt="Time Action screenshot"/></a><a href="../assets/screenshots/time-action/4.png" target="_blank" rel="noopener"><img src="../assets/screenshots/time-action/4.png" alt="Time Action screenshot"/></a></div></section></main><div id="cookie-consent" class="cookie-consent" hidden=""><p class="cookie-consent-text">このサイトでは Google Analytics を使ってアクセス状況を計測しています。許可いただける場合は「同意する」を押してください。</p><div class="cookie-consent-actions"><button type="button" data-consent="denied">拒否する</button><button type="button" data-consent="granted">同意する</button></div></div><footer class="site-footer"><div class="container"><p>© seriwb · <a href="https://github.com/seriwb" target="_blank" rel="noopener">GitHub</a> · <a href="../privacy.html">プライバシー設定</a></p></div></footer></body></html>

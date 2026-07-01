@@ -1,0 +1,41 @@
+id: time-action
+name: Time Action
+tagline: 指定時刻にキーボードイベントを自動送出するデスクトップツール
+description: |
+  指定時刻にキーボードイベントを自動送出するデスクトップツールです。
+  Slack等のチャットアプリへの定期投稿や、指定時刻での単発キー送出を自動化できます。
+
+  スケジュールは「○時間○分○秒後に1回」「指定日時に1回」「○時間おきに繰り返し」「毎日○時○分に繰り返し」の
+  4種類に対応。実際のキー入力からショートカットを記録できるキーキャプチャ機能や、送出前にクリップボードへ
+  任意の文字列を貼り付ける機能（Slack/Discord/VSCode/Chrome等のElectron/Chromium系アプリにも確実に届く）を備えています。
+
+  ウィンドウを閉じてもトレイに常駐し、バックグラウンドでスケジュールを実行し続けます。
+icon: assets/icons/time-action.png
+screenshots: ["1.png", "2.png", "3.png", "4.png"]
+features:
+  - スケジュール管理（once / at / interval / daily、有効・無効切替）
+  - キーキャプチャ入力（実際のキー入力からショートカットを記録）
+  - 送出前クリップボード貼り付け（Electron/Chromium系アプリにも確実に到達）
+  - テスト送出（実際に発火させず動作確認）・実行ログ
+  - ウィンドウを閉じてもトレイ常駐しバックグラウンド実行を継続
+  - 有効なスケジュール実行中のPCスリープ・自動ロック抑止オプション
+  - macOSアクセシビリティ権限の状態表示・設定画面への導線
+platforms:
+  - mac
+  - win
+release_tag_prefix: time-action-v
+asset_patterns:
+  mac: "aarch64.dmg"
+  win: "x64-setup.exe"
+notes:
+  mac: |
+    本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
+    「"Time Action"は壊れているため開けません」というエラーが表示されます。
+    アプリが破損しているわけではなく、macOS Gatekeeperによる保護機能の動作です。
+
+    解除には以下のいずれかを実行してください：
+    - ターミナルで実行: xattr -dr com.apple.quarantine "/Applications/Time Action.app"
+    - もしくはFinderで Time Action.app を右クリック→「開く」→警告ダイアログで「開く」を選択
+
+    また、キーボードイベント送出には「システム設定 → プライバシーとセキュリティ →
+    アクセシビリティ」でのアプリ許可が必要です。
