@@ -7,7 +7,7 @@ marked.use({
   gfm: true,
   renderer: {
     heading({ tokens, depth }) {
-      const text = this.parser?.parseInline(tokens) ?? '';
+      const text = this.parser?.parseInline(tokens) ?? "";
       const level = Math.min(depth + 3, 6);
       return `<h${level}>${text}</h${level}>\n`;
     },
@@ -16,13 +16,29 @@ marked.use({
 
 const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
   allowedTags: [
-    "h4", "h5", "h6",
-    "p", "br", "hr",
-    "strong", "em", "del", "code", "pre",
+    "h4",
+    "h5",
+    "h6",
+    "p",
+    "br",
+    "hr",
+    "strong",
+    "em",
+    "del",
+    "code",
+    "pre",
     "blockquote",
-    "ul", "ol", "li",
-    "a", "img",
-    "table", "thead", "tbody", "tr", "th", "td",
+    "ul",
+    "ol",
+    "li",
+    "a",
+    "img",
+    "table",
+    "thead",
+    "tbody",
+    "tr",
+    "th",
+    "td",
     "input",
   ],
   allowedAttributes: {
@@ -61,7 +77,9 @@ function ReleaseNoteItem({ r, owner, repo }: ReleaseNoteItemProps) {
           v{r.version}
           <span className="release-note-date">{formatYmd(r.publishedAt)}</span>
         </h3>
-        <a className="release-note-link" href={ghUrl} target="_blank" rel="noopener noreferrer">GitHubで見る</a>
+        <a className="release-note-link" href={ghUrl} target="_blank" rel="noopener noreferrer">
+          GitHubで見る
+        </a>
       </header>
       {r.body.length > 0 && <ReleaseNoteBody body={r.body} />}
     </article>
@@ -74,13 +92,17 @@ interface ReleaseNotesProps {
   releases: ResolvedReleaseNote[];
 }
 
+const MAX_RELEASE_NOTES = 3;
+
 export function ReleaseNotes({ owner, repo, releases }: ReleaseNotesProps) {
   if (releases.length === 0) return null;
-  const head = releases.slice(0, 10);
-  const tail = releases.slice(10);
+  const head = releases.slice(0, MAX_RELEASE_NOTES);
+  const tail = releases.slice(MAX_RELEASE_NOTES);
   return (
     <section className="app-section app-release-notes">
-      <h2 className="section-title" data-en="CHANGELOG">更新履歴</h2>
+      <h2 className="section-title" data-en="CHANGELOG">
+        更新履歴
+      </h2>
       {head.map((r) => (
         <ReleaseNoteItem key={r.tag} r={r} owner={owner} repo={repo} />
       ))}
