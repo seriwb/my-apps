@@ -27,5 +27,10 @@ asset_patterns:
   linux: ".AppImage"
 notes:
   mac: |
-    現在コード署名なしのビルドです。初回起動時はGatekeeperのブロックが表示される場合があります。
-    ブロックされた場合、システム設定 → プライバシーとセキュリティ から「このまま開く」を選択してください。
+    本アプリはコード署名・公証を行っていないため、ダウンロード後の初回起動時に
+    「"Picture Converter"は壊れているため開けません」というエラーが表示されます。
+    アプリが破損しているわけではなく、macOS Gatekeeperによる保護機能の動作です。
+
+    解除には以下のいずれかを実行してください：
+    - ターミナルで実行: xattr -dr com.apple.quarantine /Applications/Picture\ Converter.app
+    - もしくはFinderで Picture Converter.app を右クリック→「開く」→警告ダイアログで「開く」を選択
